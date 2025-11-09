@@ -51,6 +51,8 @@ function multiply(a, b) {
 }
 
 const divZeroErr = "Error: Division by zero!";
+const nullishErr = "Result is undefined or null, something went wrong";
+
 function divide(a, b) {
   if (b === 0) {
     return divZeroErr;
@@ -94,43 +96,35 @@ while (true) {
       break;
   }
 
-  // ERROR CHECK
-  if (result === divZeroErr) {
-    console.log(divZeroErr);
-    return;
+  let msg = result ?? nullishErr;
+
+  if (msg !== divZeroErr && msg !== nullishErr) {
+    // TYPE ANALYSYS
+    let negPosZero = "";
+    let oddEven = "";
+    let integerFloat = "";
+
+    if (result < 0) {
+      negPosZero = "negative";
+    } else if (result === 0) {
+      negPosZero = "Zero";
+    } else {
+      negPosZero = "positive";
+    }
+
+    if (Number.isInteger(result)) {
+      integerFloat = "integer";
+    } else {
+      integerFloat = "floating-point";
+    }
+
+    oddEven = result % 2 === 0 ? "Even" : "Odd";
+
+    msg = `Result is ${result}: ${negPosZero}${integerFloat === "integer" ? " and " + oddEven : ""} and ${integerFloat} number`;
   }
 
-  // NULL CHECK
-  let nullCheck = result ?? "";
-  if (nullCheck === "") {
-    console.log("Result is undefined or null, something went wrong");
-    return;
-  }
-
-  // TYPE ANALYSYS
-  let negPosZero = "";
-  let oddEven = "";
-  let integerFloat = "";
-
-  if (result < 0) {
-    negPosZero = "negative";
-  } else if (result === 0) {
-    negPosZero = "Zero";
-  } else {
-    negPosZero = "positive";
-  }
-
-  if (Number.isInteger(result)) {
-    integerFloat = "integer";
-  } else {
-    integerFloat = "floating-point";
-  }
-
-  oddEven = result % 2 === 0 ? "Even" : "Odd";
-
-  console.log(
-    `Result is ${result}: ${negPosZero}${integerFloat === "integer" ? " and " + oddEven : ""} and ${integerFloat} number`,
-  );
+  // PRINT FINAL RESULT
+  console.log(msg);
 
   // Exit prompt
   let exitResp = prompt(
